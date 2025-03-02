@@ -3,30 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мини-приложение</title>
+    <title>Тыкалка</title>
     <style>
         body {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
-            background-color: #f0f0f0;
-        }
-        .button {
-            padding: 15px 30px;
-            font-size: 18px;
-            background-color: #0088cc;
+            padding: 20px;
+            background-color: #3A3A3A;
             color: white;
-            border: none;
-            border-radius: 5px;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            margin: 20px 0;
+            font-size: 2.5em;
+        }
+
+        #counter {
+            font-size: 3em;
+            margin: 30px 0;
+            font-weight: bold;
+        }
+
+        .coin {
+            width: 150px;
+            height: 150px;
             cursor: pointer;
+            transition: transform 0.1s;
+            margin-top: auto;
+            margin-bottom: 50px;
+        }
+
+        .coin:active {
+            transform: scale(0.95);
         }
     </style>
 </head>
 <body>
-    <button class="button" onclick="window.open('https://coinmarketcap.com/', '_blank')">
-        Перейти на сайт
-    </button>
+    <h1>Тыкалка</h1>
+    <div id="counter">0</div>
+    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0MCIgZmlsbD0iI0ZGQ0IyNSIgc3Ryb2tlPSIjQ0M5RjAwIiBzdHJva2Utd2lkdGg9IjgiLz48cGF0aCBkPSJNNDUgMzVjMTAtOCAyMC04IDMwIDBtMCAzMGMxMC04IDIwLTggMzAgMCIgc3Ryb2tlPSIjQ0M5RjAwIiBzdHJva2Utd2lkdGg9IjUiIGZpbGw9Im5vbmUiLz48L3N2Zz4=" 
+         class="coin" 
+         onclick="incrementCounter()">
+
+    <script>
+        let count = 0;
+        const counterElement = document.getElementById('counter');
+
+        function incrementCounter() {
+            count++;
+            counterElement.textContent = count;
+        }
+    </script>
 </body>
 </html>
