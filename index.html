@@ -1,91 +1,106 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <!-- Кодировка и адаптация под мобильные устройства -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" 
+          content="width=device-width,   /* Ширина по размеру экрана */
+                  initial-scale=1.0,    /* Начальный масштаб 100% */
+                  maximum-scale=1.0,    /* Максимальный масштаб 100% */
+                  user-scalable=no">    /* Запрет масштабирования пальцами -->
     <title>Тыкалка</title>
+    
     <style>
+        /* Основные настройки страницы */
         body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            background-color: #3A3A3A;
-            color: white;
-            font-family: Arial, sans-serif;
-            touch-action: manipulation; /* Блокировка жестов масштабирования */
+            display: flex;               /* Гибкий контейнер */
+            flex-direction: column;      /* Элементы в колонку */
+            align-items: center;         /* Центрирование по горизонтали */
+            min-height: 100vh;          /* Минимальная высота на весь экран */
+            margin: 0;                   /* Убираем отступы по умолчанию */
+            padding: 20px;               /* Внутренние отступы */
+            background-color: #3A3A3A;   /* Цвет фона */
+            color: white;               /* Цвет текста */
+            font-family: Arial, sans-serif; /* Шрифт */
+            touch-action: manipulation;  /* Блокировка жестов масштабирования */
         }
 
+        /* Стили для заголовка */
         h1 {
-            margin: 20px 0;
-            font-size: 2.5em;
+            margin: 20px 0;             /* Отступы сверху/снизу */
+            font-size: 2.5em;           /* Размер шрифта */
         }
 
+        /* Стили для счетчика */
         #counter {
-            font-size: 3em;
-            margin: 30px 0;
-            font-weight: bold;
+            font-size: 3em;             /* Размер шрифта */
+            margin: 30px 0;             /* Отступы сверху/снизу */
+            font-weight: bold;          /* Жирное начертание */
         }
 
+        /* Стили для монетки */
         .coin {
-            width: 150px;
-            height: 220px;
-            cursor: pointer;
-            transition: all 0.1s ease;
-            object-fit: contain;
-            margin-top: auto;
-            margin-bottom: 50px;
-            -webkit-tap-highlight-color: transparent; /* Убирает подсветку при тапе */
+            width: 150px;               /* Ширина изображения */
+            height: 220px;              /* Высота изображения */
+            cursor: pointer;            /* Курсор-указатель */
+            transition: all 0.1s ease;  /* Плавная анимация изменений */
+            object-fit: contain;       /* Сохранение пропорций изображения */
+            margin-top: auto;           /* Прижимаем к низу */
+            margin-bottom: 50px;        /* Отступ снизу */
+            -webkit-tap-highlight-color: transparent; /* Убираем подсветку при тапе */
         }
 
+        /* Состояние нажатой монетки */
         .coin.pressed {
-            transform: scale(0.95) translateY(2px);
-            filter: brightness(0.9);
+            transform: scale(0.95) translateY(2px); /* Уменьшение + смещение вниз */
+            filter: brightness(0.9);   /* Затемнение */
         }
     </style>
 </head>
 <body>
+    <!-- Структура страницы -->
     <h1>Тыкалка</h1>
     <div id="counter">0</div>
-    <img src="ваше_изображение.png" 
+    <img src="coin.png" 
          class="coin" 
          id="coin">
 
     <script>
-        let count = 0;
-        const counterElement = document.getElementById('counter');
-        const coinElement = document.getElementById('coin');
+        // Инициализация переменных
+        let count = 0;                  // Текущий счет
+        const counterElement = document.getElementById('counter'); // Элемент счетчика
+        const coinElement = document.getElementById('coin');      // Элемент монетки
 
-        // Обработчики для всех типов устройств
+        // Функции для анимации нажатия
         function handlePress() {
-            coinElement.classList.add('pressed');
+            coinElement.classList.add('pressed'); // Добавляем класс с анимацией
         }
 
         function handleRelease() {
-            coinElement.classList.remove('pressed');
+            coinElement.classList.remove('pressed'); // Убираем класс с анимацией
         }
 
-        // Добавляем обработчики событий
-        coinElement.addEventListener('mousedown', handlePress);
-        coinElement.addEventListener('mouseup', handleRelease);
-        coinElement.addEventListener('mouseleave', handleRelease);
+        // Обработчики событий для мыши
+        coinElement.addEventListener('mousedown', handlePress);   // Нажатие кнопки мыши
+        coinElement.addEventListener('mouseup', handleRelease);   // Отпускание кнопки мыши
+        coinElement.addEventListener('mouseleave', handleRelease);// Выход за пределы элемента
+
+        // Обработчики событий для сенсорных экранов
         coinElement.addEventListener('touchstart', function(e) {
-            e.preventDefault(); // Предотвращаем поведение по умолчанию
+            e.preventDefault();         // Блокировка стандартного поведения
             handlePress();
         });
-        coinElement.addEventListener('touchend', handleRelease);
+        coinElement.addEventListener('touchend', handleRelease); // Завершение касания
 
-        // Функция подсчета
+        // Функция увеличения счетчика
         function incrementCounter() {
-            count++;
-            counterElement.textContent = count;
+            count++;                    // Увеличиваем счет
+            counterElement.textContent = count; // Обновляем отображение
         }
 
-        // Объединяем клик и тач
-        coinElement.addEventListener('click', incrementCounter);
-        coinElement.addEventListener('touchstart', incrementCounter);
+        // Объединение событий клика и тача
+        coinElement.addEventListener('click', incrementCounter);   // Для мыши
+        coinElement.addEventListener('touchstart', incrementCounter); // Для сенсорных экранов
     </script>
 </body>
 </html>
