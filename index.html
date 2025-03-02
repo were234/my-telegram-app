@@ -29,23 +29,27 @@
         }
 
         .coin {
-            width: 150px;
-            height: 150px;
+            width: 150px;   /* Ширина вашего изображения */
+            height: 220px;  /* Высота вашего изображения */
             cursor: pointer;
-            transition: transform 0.1s;
+            transition: all 0.1s ease; /* Плавная анимация */
+            object-fit: contain; /* Сохраняет пропорции изображения */
             margin-top: auto;
             margin-bottom: 50px;
         }
 
+        /* Эффект нажатия */
         .coin:active {
-            transform: scale(0.95);
+            transform: scale(0.95) translateY(2px); /* Уменьшение + смещение вниз */
+            filter: brightness(0.9); /* Затемнение */
         }
     </style>
 </head>
 <body>
     <h1>Тыкалка</h1>
     <div id="counter">0</div>
-        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0MCIgZmlsbD0iI0ZGQ0IyNSIgc3Ryb2tlPSIjQ0M5RjAwIiBzdHJva2Utd2lkdGg9IjgiLz48cGF0aCBkPSJNNDUgMzVjMTAtOCAyMC04IDMwIDBtMCAzMGMxMC04IDIwLTggMzAgMCIgc3Ryb2tlPSIjQ0M5RjAwIiBzdHJva2Utd2lkdGg9IjUiIGZpbGw9Im5vbmUiLz48L3N2Zz4=" 
+    <!-- Укажите правильное имя файла в src -->
+    <img src="coin.png" 
          class="coin" 
          onclick="incrementCounter()">
 
