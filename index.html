@@ -17,19 +17,37 @@
             display: flex;               /* Гибкий контейнер */
             flex-direction: column;      /* Элементы в колонку */
             align-items: center;         /* Центрирование по горизонтали */
-           /* min-height: 100vh;          /* Минимальная высота на весь экран */
             margin: 0;                   /* Убираем отступы по умолчанию */
-           */ padding: 20px;               /* Внутренние отступы */
             background-color: #3A3A3A;   /* Цвет фона */
             color: white;               /* Цвет текста */
             font-family: Arial, sans-serif; /* Шрифт */
             touch-action: manipulation;  /* Блокировка жестов масштабирования */
-
             height: 100vh;
             padding: 0;
             overflow: hidden;
-            
         }
+
+        /* ▼▼▼ ДОБАВЛЕНО НОВЫЙ СТИЛЬ ▼▼▼ */
+        .bonus-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            opacity: 0;
+            transition: opacity 0.5s, transform 1s;
+            pointer-events: none;
+            z-index: 10;
+            display: none;
+        }
+
+        .bonus-image.show {
+            opacity: 1;
+            display: block;
+            transform: translate(-50%, -50%) scale(1.2);
+        }
+        /* ▲▲▲ КОНЕЦ ДОБАВЛЕНИЯ ▲▲▲ */
 
         /* Стили для заголовка */
         h1 {
@@ -71,11 +89,34 @@
          class="coin" 
          id="coin">
 
+    <!-- ▼▼▼ ДОБАВЛЕНА БОНУСНАЯ КАРТИНКА ▼▼▼ -->
+    <img src="https://example.com/bonus.png" class="bonus-image" id="bonusImage">
+
     <script>
         // Инициализация переменных
         let count = 0;                  // Текущий счет
+        let bonusTimeout = null;        // ▼▼▼ ДОБАВЛЕНА ПЕРЕМЕННАЯ
         const counterElement = document.getElementById('counter'); // Элемент счетчика
         const coinElement = document.getElementById('coin');      // Элемент монетки
+        const bonusImage = document.getElementById('bonusImage'); // ▼▼▼ ДОБАВЛЕНА ПЕРЕМЕННАЯ
+
+        // ▼▼▼ ДОБАВЛЕНА НОВАЯ ФУНКЦИЯ ▼▼▼
+        function showBonus() {
+            if(bonusTimeout) clearTimeout(bonusTimeout);
+            bonusImage.style.display = 'block';
+            bonusImage.classList.remove('show');
+            
+            setTimeout(() => {
+                bonusImage.classList.add('show');
+            }, 50);
+            
+            bonusTimeout = setTimeout(() => {
+                bonusImage.classList.remove('show');
+                setTimeout(() => {
+                    bonusImage.style.display = 'none';
+                }, 500);
+            }, 3000);
+        }
 
         // Функции для анимации нажатия
         function handlePress() {
@@ -98,10 +139,14 @@
         });
         coinElement.addEventListener('touchend', handleRelease); // Завершение касания
 
-        // Функция увеличения счетчика
+        // Функция увеличения счетчика ▼▼▼ ОБНОВЛЕНА
         function incrementCounter() {
             count++;                    // Увеличиваем счет
-            counterElement.textContent = count; // Обновляем отображение
+            counterElement.textContent = count;
+            
+            if(count % 10 === 0 && count !== 0) {
+                showBonus();
+            }
         }
 
         // Объединение событий клика и тача
