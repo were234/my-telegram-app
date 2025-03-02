@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Тыкалка</title>
     <style>
         body {
@@ -15,6 +15,7 @@
             background-color: #3A3A3A;
             color: white;
             font-family: Arial, sans-serif;
+            touch-action: manipulation; /* Блокировка жестов масштабирования */
         }
 
         h1 {
@@ -29,38 +30,62 @@
         }
 
         .coin {
-            width: 150px;   /* Ширина вашего изображения */
-            height: 220px;  /* Высота вашего изображения */
+            width: 150px;
+            height: 220px;
             cursor: pointer;
-            transition: all 0.1s ease; /* Плавная анимация */
-            object-fit: contain; /* Сохраняет пропорции изображения */
+            transition: all 0.1s ease;
+            object-fit: contain;
             margin-top: auto;
             margin-bottom: 50px;
+            -webkit-tap-highlight-color: transparent; /* Убирает подсветку при тапе */
         }
 
-        /* Эффект нажатия */
-        .coin:active {
-            transform: scale(0.95) translateY(2px); /* Уменьшение + смещение вниз */
-            filter: brightness(0.9); /* Затемнение */
+        .coin.pressed {
+            transform: scale(0.95) translateY(2px);
+            filter: brightness(0.9);
         }
     </style>
 </head>
 <body>
     <h1>Тыкалка</h1>
     <div id="counter">0</div>
-    <!-- Укажите правильное имя файла в src -->
-    <img src="coin.png" 
+    <img src="ваше_изображение.png" 
          class="coin" 
-         onclick="incrementCounter()">
+         id="coin">
 
     <script>
         let count = 0;
         const counterElement = document.getElementById('counter');
+        const coinElement = document.getElementById('coin');
 
+        // Обработчики для всех типов устройств
+        function handlePress() {
+            coinElement.classList.add('pressed');
+        }
+
+        function handleRelease() {
+            coinElement.classList.remove('pressed');
+        }
+
+        // Добавляем обработчики событий
+        coinElement.addEventListener('mousedown', handlePress);
+        coinElement.addEventListener('mouseup', handleRelease);
+        coinElement.addEventListener('mouseleave', handleRelease);
+        coinElement.addEventListener('touchstart', function(e) {
+            e.preventDefault(); // Предотвращаем поведение по умолчанию
+            handlePress();
+        });
+        coinElement.addEventListener('touchend', handleRelease);
+
+        // Функция подсчета
         function incrementCounter() {
             count++;
             counterElement.textContent = count;
         }
+
+        // Объединяем клик и тач
+        coinElement.addEventListener('click', incrementCounter);
+        coinElement.addEventListener('touchstart', incrementCounter);
     </script>
 </body>
 </html>
